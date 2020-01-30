@@ -1,0 +1,52 @@
+################################################################################
+#
+# This ansible playbook runs the configuration of a Digium gateway
+# through the JSON API
+# See: https://wiki.asterisk.org/wiki/display/DIGIUM/Gateway+API+Methods
+#
+# Version: v1.0
+#
+# How to use it:
+#  - ansible-playbook main.yaml
+#
+################################################################################
+
+---
+- hosts: 127.0.0.1
+  connection: local
+
+  vars:
+    digium_host: "MY_DIGIUM_GW"
+    digium_port: "MY_DIGIUM_PORT"
+    user: "test"
+    password: "test"
+
+  tasks:
+    ###################
+    # Add new access rule
+    ###################
+    - name: Add or update Google office access
+      digium_access:
+        host: "{{ digium_host }}"
+        port: "{{ digium_port }}"
+        ssl_ignore: true
+        user: "{{ user }}"
+        password: "{{ password }}"
+        name: "my_google_office"
+        state: present
+        network: "8.8.8.8/32"
+        sip: no
+        admin_web: no
+
+    ###################
+    # Remove access rule
+    ###################
+    - name: Remove Google office access
+      digium_access:
+        host: "{{ digium_host }}"
+        port: "{{ digium_port }}"
+        ssl_ignore: true
+        user: "{{ user }}"
+        password: "{{ password }}"
+        name: "my_google_office"
+        state: absent
