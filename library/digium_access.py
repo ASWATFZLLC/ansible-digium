@@ -184,6 +184,13 @@ class digiumAccess(object):
                 rule['sip'] != sip or
                 rule['network'] != network):
                 changed = True
+            self.diff['before'] = {
+                name: {
+                    "admin_web": "yes" if rule['admin_web'] == "1" else "no",
+                    "sip": "yes" if rule['sip'] == "1" else "no",
+                    "network": rule['network']
+                }
+            }
         if changed:
             data = {
                 "request" : {
