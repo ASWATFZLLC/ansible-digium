@@ -201,8 +201,8 @@ class digiumAccess(object):
                 self.module.fail_json(msg='Error when adding %s: %s (%s)' % (name, result['error'], result['error_key']))
             self.diff['after'] = {
                 name: {
-                    "admin_web": "yes" if admin_web == "0" else "no",
-                    "sip": "yes" if sip == "0" else "no",
+                    "admin_web": "yes" if admin_web == "1" else "no",
+                    "sip": "yes" if sip == "1" else "no",
                     "network": network
                 }
             } 
@@ -245,8 +245,8 @@ def main():
 
     access = dict()
     access['name'] = module.params['name']
-    access['admin_web'] = "0" if module.params['admin_web'] == True else "1"
-    access['sip'] = "0" if module.params['sip'] == True else "1"
+    access['admin_web'] = "1" if module.params['admin_web'] == True else "0"
+    access['sip'] = "1" if module.params['sip'] == True else "0"
     access['network'] = module.params['network']
     state = module.params['state']
 
