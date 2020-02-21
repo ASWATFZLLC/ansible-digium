@@ -199,7 +199,7 @@ class digiumAccess(object):
                         "admin_web": admin_web,
                         "sip": sip,
                         "network": network,
-                        "name": name
+                        "name": name,
                     }
                 }
             }
@@ -251,7 +251,7 @@ def main():
     gw = digiumAccess(module)
 
     access = dict()
-    access['name'] = module.params['name']
+    access['name'] = module.params['name'].replace(" ", "_")
     access['admin_web'] = "1" if module.params['admin_web'] == True else "0"
     access['sip'] = "1" if module.params['sip'] == True else "0"
     access['network'] = module.params['network']
