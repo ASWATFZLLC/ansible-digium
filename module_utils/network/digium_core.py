@@ -52,7 +52,6 @@ class Digium():
         # the main page.
         if re.search("Welcome,\s+%s" % self.user, lines) is None:
             self.module.fail_json(msg='Login incorrect for user %s' % (self.user))
-        print("Connected")
         return 0
 
     def api_request(self, data):
@@ -60,7 +59,8 @@ class Digium():
         req = mechanize.Request("%s/json" % self.host, data_str)
         res = mechanize.urlopen(req)
         lines = res.read()
-        print(lines)
+        # We can print lines to have a hard debug if needed...
+        # Should be returned to Ansible to see it with debug mode.
         response = json.loads(lines)
         result = json.loads(response['response']['result'])
         return result
