@@ -165,6 +165,8 @@ class digiumAccess(object):
 
     def add(self, access):
         changed = False
+        stdout = None
+        stderr = None
         name = access['name']
         admin_web = access['admin_web']
         sip = access['sip']
@@ -178,7 +180,6 @@ class digiumAccess(object):
 
         # Need to check difference and update it if needed
         if rule is not None:
-            self.diff['after'] = name
             if (rule['admin_web'] != admin_web or
                 rule['sip'] != sip or
                 rule['network'] != network):
@@ -198,6 +199,13 @@ class digiumAccess(object):
             response = self.gw.api_request(data)
             if (response['result'] != 'success'):
                 self.module.fail_json(msg='Error when adding %s: %s (%s)' % (name, result['error'], result['error_key']))
+            self.diff['after'] = {
+                name: {
+                    "admin_web": "yes" if admin_web == "0" else "no",
+                    "sip": "yes" if sip == "0" else "no",
+                    "network": network
+                }
+            } 
         self.module.exit_json(changed=changed, diff=self.diff)
 
     def print_list(self, update=True):
